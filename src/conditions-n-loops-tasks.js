@@ -21,8 +21,8 @@
  *  0  => true
  *  -5 => false
  */
-function isPositive( number) {
-  return (number >= 0);
+function isPositive(number) {
+  return number >= 0;
 }
 
 /**
