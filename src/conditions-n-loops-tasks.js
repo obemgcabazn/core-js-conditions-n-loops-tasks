@@ -227,8 +227,11 @@ function convertNumberToString(numberStr) {
  *  '0123210'   => true
  *  'qweqwe'    => false
  */
-function isPalindrome(/* str */) {
-  throw new Error('Not implemented');
+function isPalindrome(str) {
+  for (let i = 0; i < Math.floor(str.length / 2); i += 1) {
+    if (str[i] !== str[str.length - (i + 1)]) return false;
+  }
+  return true;
 }
 
 /**
@@ -245,8 +248,11 @@ function isPalindrome(/* str */) {
  *  'qwerty', 'Q'     => -1
  *  'qwerty', 'p'     => -1
  */
-function getIndexOf(/* str, letter */) {
-  throw new Error('Not implemented');
+function getIndexOf(str, letter) {
+  for (let i = 0; i < str.length; i += 1) {
+    if (str[i] === letter) return i;
+  }
+  return -1;
 }
 
 /**
@@ -264,8 +270,12 @@ function getIndexOf(/* str, letter */) {
  *  12345, 0    => false
  *  12345, 6    => false
  */
-function isContainNumber(/* num, digit */) {
-  throw new Error('Not implemented');
+function isContainNumber(num, digit) {
+  const str = String(num);
+  for (let i = 0; i < str.length; i += 1) {
+    if (str[i] === String(digit)) return true;
+  }
+  return false;
 }
 
 /**
@@ -281,8 +291,19 @@ function isContainNumber(/* num, digit */) {
  *  [2, 3, 9, 5] => 2       => 2 + 3 === 5 then balance element is 9 and its index = 2
  *  [1, 2, 3, 4, 5] => -1   => no balance element
  */
-function getBalanceIndex(/* arr */) {
-  throw new Error('Not implemented');
+function getBalanceIndex(arr) {
+  for (let i = 1; i < arr.length; i += 1) {
+    let left = 0;
+    let right = 0;
+    for (let j = 0; j < i; j += 1) {
+      left += arr[j];
+    }
+    for (let k = i + 1; k < arr.length; k += 1) {
+      right += arr[k];
+    }
+    if (left === right) return i;
+  }
+  return -1;
 }
 
 /**
@@ -306,8 +327,82 @@ function getBalanceIndex(/* arr */) {
  *          [10, 9,  8,  7]
  *        ]
  */
-function getSpiralMatrix(/* size */) {
-  throw new Error('Not implemented');
+function getSpiralMatrix(size) {
+  const result = [];
+  for (let i = 0; i < size; i += 1) {
+    result[i] = [];
+  }
+  const direction = {
+    value: 0,
+    next() {
+      if (this.value === 3) {
+        this.value = 0;
+      } else {
+        this.value += 1;
+      }
+    },
+  };
+  let sideSize = size - 1;
+  let x = 1;
+  let y = 0;
+  let i = 1;
+  while (i <= size ** 2) {
+    if (i <= size) {
+      y = i - 1;
+      result[0][y] = i;
+      i += 1;
+      direction.value = 1;
+    } else if (direction.value === 1) {
+      const endX = sideSize + x - 1;
+      for (x; x <= endX; x += 1) {
+        result[x][y] = i;
+        i += 1;
+        if (x === endX) {
+          direction.next();
+          y -= 1;
+        }
+      }
+      x -= 1;
+    } else if (direction.value === 2) {
+      const endY = y - sideSize + 1;
+      for (y; y >= endY; y -= 1) {
+        result[x][y] = i;
+        i += 1;
+        if (y === endY) {
+          direction.next();
+          x -= 1;
+        }
+      }
+      sideSize -= 1;
+      y += 1;
+    } else if (direction.value === 3) {
+      const endX = x - sideSize + 1;
+      for (x; x >= endX; x -= 1) {
+        result[x][y] = i;
+        i += 1;
+        if (x === endX) {
+          direction.next();
+          y += 1;
+        }
+      }
+      x += 1;
+    } else if (direction.value === 0) {
+      const endY = sideSize + y;
+      for (y; y < endY; y += 1) {
+        result[x][y] = i;
+        i += 1;
+        if (y === endY - 1) {
+          direction.next();
+          x += 1;
+        }
+      }
+      sideSize -= 1;
+      y -= 1;
+    } else {
+      i += 1;
+    }
+  }
+  return result;
 }
 
 /**
