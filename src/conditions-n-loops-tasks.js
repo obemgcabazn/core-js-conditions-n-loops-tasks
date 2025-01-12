@@ -462,8 +462,17 @@ function rotateMatrix(matrix) {
  *  [2, 9, 5, 9]    => [2, 5, 9, 9]
  *  [-2, 9, 5, -3]  => [-3, -2, 5, 9]
  */
-function sortByAsc(/* arr */) {
-  throw new Error('Not implemented');
+function sortByAsc(arr) {
+  const result = arr;
+  for (let i = 1; i < arr.length; i += 1) {
+    const current = arr[i];
+    let j;
+    for (j = i - 1; j >= 0 && arr[j] > current; j -= 1) {
+      result[j + 1] = arr[j];
+    }
+    result[j + 1] = current;
+  }
+  return result;
 }
 
 /**
@@ -483,8 +492,31 @@ function sortByAsc(/* arr */) {
  *  '012345', 3 => '024135' => '043215' => '031425'
  *  'qwerty', 3 => 'qetwry' => 'qtrewy' => 'qrwtey'
  */
-function shuffleChar(/* str, iterations */) {
-  throw new Error('Not implemented');
+function shuffleChar(str, iterations) {
+  if (str.length <= 1 || iterations <= 0) return str;
+  let result = str;
+  let optimizedIteration = iterations;
+  let iterationShift = 1;
+
+  for (let i = 0; i < optimizedIteration; i += 1) {
+    let odd = '';
+    let even = '';
+
+    for (let j = 0; j < result.length; j += 1) {
+      if (j % 2) {
+        odd += result[j];
+      } else {
+        even += result[j];
+      }
+    }
+    result = even + odd;
+    if (result === str) {
+      optimizedIteration = iterations % iterationShift;
+      i = -1;
+    }
+    iterationShift += 1;
+  }
+  return result;
 }
 
 /**
